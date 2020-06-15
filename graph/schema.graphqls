@@ -1,0 +1,75 @@
+type Project {
+    id: Int!
+    name: String!
+    quantity: Int
+    buget: Float
+    users: [User!]
+}
+
+input NewProject {
+    name: String!
+    quantity: Int!
+    buget: Float!
+}
+
+type Link {
+  id: Int!
+  title: String!
+  address: String
+  userId: Int
+}
+
+input NewLink {
+  title: String!
+  address: String!
+  userId: Int!
+}
+
+type User {
+  id: Int!
+  name: String!
+  links: [Link!]
+  projects: [Project!]
+}
+
+input NewUser {
+  username: String!
+  password: String!
+}
+
+input NewRefreshToken {
+  token: String!
+}
+
+input Login {
+  username: String!
+  password: String!
+}
+
+type Query {
+  projects : [Project!]!
+  getProjectsByName(name: String!) : [Project!]!
+  links : [Link!]!
+  getLinksByTitle(title: String!) : [Link!]!
+  users : [User!]!
+  getUserByUsername(username: String!) : User!
+}
+
+type Mutation {
+  createProject(input: NewProject!): Project!
+  updateProject(projectId: Int!, input: NewProject!): Project!
+  deleteProject(projectId: Int!): Project!
+  associateProject2User(projectId: Int!, userId: Int!): String!
+  decoupleProject2User(projectId: Int!, userId: Int!): String!
+
+  createLink(input: NewLink!): Link!
+  updateLink(linkId: Int!, input: NewLink!): Link!
+  deleteLink(linkId: Int!): Link!
+  setLink2User(linkId: Int!, username: String!): String!
+
+  createUser(input: NewUser!): String!
+  updatePassword(input: NewUser!): User!
+  login(input: Login!): String!
+  refreshToken(input: NewRefreshToken!): String!
+  deleteUser(input: NewUser!): User!
+}
