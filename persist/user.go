@@ -32,7 +32,7 @@ func (user *User) GetUserById(id string) (*User, error) {
 
 func (user *User) GetUserByUsername(username string) (*User, error) {
 	var dbuser User
-	err := Db.Preload("Links").Where(&User{Username: username}).First(&dbuser).Error
+	err := Db.Preload("Links").Preload("Projects").Where(&User{Username: username}).First(&dbuser).Error
 	if err != nil {
 		log4go.Error(err.Error())
 		return nil, err

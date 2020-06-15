@@ -57,7 +57,7 @@ func (project *Project) Projects() ([]*Project, error) {
 
 func (project *Project) GetProjectsByName(name string) ([]*Project, error) {
 	var projects []*Project
-	err := Db.Where("name LIKE ?", "%"+name+"%").Find(&projects).Error
+	err := Db.Where("name LIKE ?", "%"+name+"%").Preload("Users").Find(&projects).Error
 	if err != nil {
 		log4go.Error(err.Error())
 		return nil, err

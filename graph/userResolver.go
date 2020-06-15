@@ -176,7 +176,12 @@ func (r *queryResolver) GetUserByUsername(ctx context.Context, username string) 
 		ml := model.Link{ID: dl.ID, Title: dl.Title, Address: &dl.Address}
 		mlinks = append(mlinks, &ml)
 	}
-	var muser = model.User{ID: user.ID, Name: user.Username, Links: mlinks}
+	var mprojects []*model.Project
+	for _, dp := range user.Projects {
+		mp := model.Project{ID: dp.ID, Name: dp.Name, Quantity: &dp.Quantity, Buget: &dp.Buget}
+		mprojects = append(mprojects, &mp)
+	}
+	var muser = model.User{ID: user.ID, Name: user.Username, Links: mlinks, Projects: mprojects}
 	return &muser, nil
 }
 

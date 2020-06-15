@@ -116,10 +116,16 @@ func (r *queryResolver) GetProjectsByName(ctx context.Context, name string) ([]*
 	}
 	var mprojects []*model.Project
 	for _, dp := range dpprojects {
+		var musers []*model.User
+		for _, du := range dp.Users {
+			mu := model.User{ID: du.ID, Name: du.Username}
+			musers = append(musers, &mu)
+		}
 		mp := model.Project{ID: dp.ID,
 			Name:     dp.Name,
 			Quantity: &dp.Quantity,
-			Buget:    &dp.Buget}
+			Buget:    &dp.Buget,
+			Users:    musers}
 		mprojects = append(mprojects, &mp)
 	}
 	return mprojects, nil
